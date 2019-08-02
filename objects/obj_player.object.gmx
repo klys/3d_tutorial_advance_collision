@@ -26,8 +26,8 @@
           <argument>
             <kind>1</kind>
             <string>sensitivity = 0.1; // use to mouse movement
-max_spd = 2; // use to specific how fast the player can move
-acc = 0.1; // actual acceleration
+max_spd = 7; // use to specific how fast the player can move
+acc = 1; // actual acceleration
 
 
 fb_vel = 0; // velocity to move forward and backward
@@ -87,8 +87,33 @@ if (rl_keys == 0 &amp;&amp; abs(rl_vel) &gt;= acc) {
 var x_vel = lengthdir_x(fb_vel, direction) + lengthdir_x(rl_vel, direction - 90);
 var y_vel = lengthdir_y(fb_vel, direction) + lengthdir_y(rl_vel, direction - 90);
 
-x += x_vel;
-y += y_vel;
+// Check for collisions and move
+if (!place_meeting(x + x_vel, y, par_solid)) {
+    // if there is no solid object in the way, just move
+    x += x_vel;    
+} else {
+    // If there is a solid object in the way, maybe we overshot, so take baby steps
+    while(!place_meeting(x + sign(x_vel), y, par_solid)) {
+        x += sign(x_vel);
+    }
+    // Finally there is a solid object directly in front of us
+    x_vel = 0;
+}
+
+// Check for collisions and move
+if (!place_meeting(x, y + y_vel, par_solid)) {
+    // if there is no solid object in the way, just move
+    y += y_vel;   
+} else {
+    // If there is a solid object in the way, maybe we overshot, so take baby steps
+    while(!place_meeting(x, y + sign(y_vel), par_solid)) {
+        y += sign(y_vel);
+    }
+    // Finally there is a solid object directly in front of us
+    y_vel = 0;
+}
+
+
 
 
 </string>
