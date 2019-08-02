@@ -33,6 +33,11 @@ acc = 1; // actual acceleration
 fb_vel = 0; // velocity to move forward and backward
 rl_vel = 0; // right left velocity
 
+z = 0; // for 3d (x, y, z)
+height = 32; // same as sprite size in this case
+
+pitch = 0; // angle of 3d looking view
+
 
 </string>
           </argument>
@@ -58,6 +63,10 @@ rl_vel = 0; // right left velocity
             <kind>1</kind>
             <string>// Mouse Control
 direction -= sensitivity  * (display_mouse_get_x() - (display_get_width() * 0.5));
+pitch += sensitivity * (display_mouse_get_y() - display_get_height() * 0.5);
+
+// Limit the pitch
+pitch = clamp(pitch, -80, 80);
 
 // Lock the mouse to the center of the screen
 display_mouse_set(display_get_width() * 0.5 , display_get_height() * 0.5);

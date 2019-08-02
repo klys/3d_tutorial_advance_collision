@@ -93,6 +93,7 @@
     <instance objName="par_solid" x="608" y="480" name="inst_23BA0F09" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="par_solid" x="608" y="448" name="inst_45FEA53D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="par_solid" x="288" y="384" name="inst_4997A9B2" locked="0" code="" scaleX="0.189999997615814" scaleY="7" colour="4294967295" rotation="0"/>
+    <instance objName="obj_camera" x="0" y="0" name="inst_B30A9F9D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>
