@@ -28,6 +28,11 @@
             <string>z = 0;
 height = 32;
 tex = background_get_texture(tex_block);
+
+draw_set_colour(c_white)
+
+hrepeat = image_xscale;
+vrepeat = image_yscale;
 </string>
           </argument>
         </arguments>
@@ -51,7 +56,9 @@ tex = background_get_texture(tex_block);
           <argument>
             <kind>1</kind>
             <string>d3d_draw_block(x, y, z, x + sprite_width, y + sprite_height, z + height, 
-                    tex, 1 , 1)
+                    tex, hrepeat , vrepeat);
+                    
+
 </string>
           </argument>
         </arguments>

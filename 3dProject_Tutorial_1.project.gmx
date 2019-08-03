@@ -13,6 +13,9 @@
     <background>background\tex_block</background>
   </backgrounds>
   <paths name="paths"/>
+  <scripts name="scripts">
+    <script>scripts\place_meeting_ext.gml</script>
+  </scripts>
   <objects name="objects">
     <object>objects\obj_player</object>
     <object>objects\par_solid</object>

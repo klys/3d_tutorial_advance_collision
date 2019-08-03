@@ -26,19 +26,20 @@
           <argument>
             <kind>1</kind>
             <string>sensitivity = 0.1; // use to mouse movement
-max_spd = 7; // use to specific how fast the player can move
-acc = 1; // actual acceleration
-
+max_spd = 5; // use to specific how fast the player can move
+acc = 0.5; // actual acceleration
+jump_height = 8; // for jumping
 
 fb_vel = 0; // velocity to move forward and backward
 rl_vel = 0; // right left velocity
+z_vel = 0;
 
 z = 0; // for 3d (x, y, z)
 height = 32; // same as sprite size in this case
 
 pitch = 0; // angle of 3d looking view
 
-
+grav = 0.5;
 </string>
           </argument>
         </arguments>
@@ -96,13 +97,23 @@ if (rl_keys == 0 &amp;&amp; abs(rl_vel) &gt;= acc) {
 var x_vel = lengthdir_x(fb_vel, direction) + lengthdir_x(rl_vel, direction - 90);
 var y_vel = lengthdir_y(fb_vel, direction) + lengthdir_y(rl_vel, direction - 90);
 
+// Set z_vel to be affected by gravity
+if (!place_meeting_ext(x, y, z, par_solid)) {
+    z_vel -= grav;
+}
+
+// press SPACE to JUMP
+if (place_meeting_ext(x, y, z - 1, par_solid) &amp;&amp; keyboard_check_pressed(vk_space)) {
+    z_vel += jump_height;
+}
+
 // Check for collisions and move
-if (!place_meeting(x + x_vel, y, par_solid)) {
+if (!place_meeting_ext(x + x_vel, y, z, par_solid)) {
     // if there is no solid object in the way, just move
     x += x_vel;    
 } else {
     // If there is a solid object in the way, maybe we overshot, so take baby steps
-    while(!place_meeting(x + sign(x_vel), y, par_solid)) {
+    while(!place_meeting_ext(x + sign(x_vel), y, z, par_solid)) {
         x += sign(x_vel);
     }
     // Finally there is a solid object directly in front of us
@@ -110,18 +121,30 @@ if (!place_meeting(x + x_vel, y, par_solid)) {
 }
 
 // Check for collisions and move
-if (!place_meeting(x, y + y_vel, par_solid)) {
+if (!place_meeting_ext(x, y + y_vel, z, par_solid)) {
     // if there is no solid object in the way, just move
     y += y_vel;   
 } else {
     // If there is a solid object in the way, maybe we overshot, so take baby steps
-    while(!place_meeting(x, y + sign(y_vel), par_solid)) {
+    while(!place_meeting_ext(x, y + sign(y_vel), z, par_solid)) {
         y += sign(y_vel);
     }
     // Finally there is a solid object directly in front of us
     y_vel = 0;
 }
 
+// check for collision and move in Z
+if (!place_meeting_ext(x, y, z + z_vel, par_solid)) {
+    // if there is no solid object in the way, just move
+    z += z_vel;   
+} else {
+    // If there is a solid object in the way, maybe we overshot, so take baby steps
+    while(!place_meeting_ext(x, y , z + sign(z_vel), par_solid)) {
+        z += sign(z_vel);
+    }
+    // Finally there is a solid object directly in front of us
+    z_vel = 0;
+}
 
 
 
